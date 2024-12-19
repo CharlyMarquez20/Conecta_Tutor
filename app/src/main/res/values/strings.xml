@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">proyecto_redesiii</string>
+
+    <string name="main">En esta aplicación podrás obtener información sobre las asesorias disponibles, podrás darte de alta, buscar la opción que más se adapte a ti y obtener tu horario para dichas asesorias.</string>
+</resources>

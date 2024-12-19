@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".Navegacion">
+
+    <!--SCROLL PARA NAVEGAR POR TODA LA PANTALLA-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!--TITULO DE ASESORIAS-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis próximas asesorías"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/rojo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/asesorias"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="gone"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sinAsesorias"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PARECE QUE NO TIENES ASESORIAS PRÓXIMAS"
+                        android:textAlignment="center"
+                        android:textColor="@color/azul"
+                        android:textStyle="bold|italic" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/alerta"
+                        android:layout_marginTop="20dp"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--SEPARACION-->
+            <View
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black"/>
+
+            <!--TITULO DE CURSOS-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cursos disponibles"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/rojo"
+                android:layout_marginTop="20dp"/>
+
+            <!--CURSOS DISPONIBLES LAYOUT-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cursos"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!--FOOTER-->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/beige"
+        android:gravity="center_vertical">
+
+        <!--
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/inicio"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/home"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparente"
+                android:contentDescription="Imagen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/solicitar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/nota"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparente"
+                android:contentDescription="Imagen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solicitar"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/calendario"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/calendario"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparente"
+                android:contentDescription="Imagen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calendario"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/cuenta"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/cuenta"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparente"
+                android:contentDescription="Imagen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuenta"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/salir"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/salir"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparente"
+                android:contentDescription="Imagen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salir"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
