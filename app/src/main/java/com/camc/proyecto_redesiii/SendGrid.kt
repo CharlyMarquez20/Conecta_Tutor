@@ -12,11 +12,28 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class SendGrid {
+    var apiKey: String = ""
+
+    fun api(): String{
+        var api: String=""
+        RetrofitClient.instance.getApiKey().enqueue(object : retrofit2.Callback<KeyGrid> {
+            override fun onResponse(call: retrofit2.Call<KeyGrid>,response: retrofit2.Response<KeyGrid>) {
+                if (response.isSuccessful) {
+                    api= response.body()?.apiKey.toString()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<KeyGrid>, t: Throwable) {
+                //Log.e("API", "Fallo: ${t.message}")
+            }
+        })
+        return api
+    }
+
 
     fun inscrito(id: String, materia: String, profesor: String, fecha: String, hora: String,
                   dias: String, lugar: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val apiKey = ""
+            apiKey = api()
             val fromEmail = "al333812@edu.uaa.mx"
             val toEmail = "al$id@edu.uaa.mx"
             val subject = "Te has inscrito en la asesoria de $materia"
@@ -82,7 +99,7 @@ class SendGrid {
 
     fun bajaAsesoria(id: String, materia: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val apiKey = ""
+            apiKey = api()
             val fromEmail = "al333812@edu.uaa.mx"
             val toEmail = "al$id@edu.uaa.mx"
             val subject = "Te has dado de baja en la asesoria de $materia"
@@ -148,7 +165,7 @@ class SendGrid {
 
     fun cambiarContra(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val apiKey = ""
+            apiKey = api()
             val fromEmail = "al333812@edu.uaa.mx"
             val toEmail = "al$id@edu.uaa.mx"
             val subject = "Contraseña actualizada"
@@ -214,7 +231,7 @@ class SendGrid {
 
     fun cancelarSolicitud(id: String, materia: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val apiKey = ""
+            apiKey = api()
             val fromEmail = "al333812@edu.uaa.mx"
             val toEmail = "al$id@edu.uaa.mx"
             val subject = "Cancelación de solicitud de asesoría"

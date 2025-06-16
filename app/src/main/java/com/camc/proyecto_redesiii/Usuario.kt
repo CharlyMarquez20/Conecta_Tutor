@@ -27,9 +27,10 @@ class Usuario : AppCompatActivity()  {
 
     var nombreCompleto: String? = null
     var nombre: String? = null
-    var apellidos: String? = null
-    var ocupacion: String? = null
+    var apellidoP: String? = null
+    var apellidoM: String? = null
     var idCarrera: Int? = null
+    var ocupacion: String? = null
 
     //Clase de SendGrid
     val email = SendGrid()
@@ -60,14 +61,15 @@ class Usuario : AppCompatActivity()  {
             override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
                 if (response.isSuccessful) {
                     val usuario = response.body()
-                    nombreCompleto=usuario!!.nombre+" "+usuario!!.apellidos
+                    nombreCompleto=usuario!!.Nombre+" "+usuario!!.ApellidoPaterno+" "+usuario!!.ApellidoMaterno
                     editNombre!!.hint=nombreCompleto!!
                     editNombre!!.isEnabled=false
 
-                    nombre=usuario.nombre
-                    apellidos=usuario.apellidos
-                    ocupacion=usuario.ocupacion
-                    idCarrera=usuario.id_carrera
+                    nombre=usuario.Nombre
+                    apellidoP=usuario.ApellidoPaterno
+                    apellidoM=usuario.ApellidoMaterno
+                    idCarrera=usuario.idCarrera
+                    ocupacion=usuario.Ocupacion
                 }
             }
             override fun onFailure(call: retrofit2.Call<Usuarios>, t: Throwable) {
@@ -112,8 +114,8 @@ class Usuario : AppCompatActivity()  {
             Sesion.modificarContra=false
             val contra = editContra!!.text.toString()
 
-            val usuario = Usuarios(id = Sesion.usuario, id_carrera = idCarrera!!,  nombre = nombre!!, apellidos = apellidos!!, ocupacion = ocupacion!!, password = contra)
-
+            val usuario = Usuarios(idAlumno = Sesion.usuario, idCarrera = idCarrera!!,  Nombre = nombre!!, ApellidoPaterno = apellidoP!!,
+                ApellidoMaterno = apellidoM!!, Password = contra, Semestre = Sesion.semestre, Ocupacion = ocupacion!!)
             RetrofitClient.instance.actualizarUsuario(usuario).enqueue(object : retrofit2.Callback<Usuarios> {
                 override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
                     if (response.isSuccessful) {

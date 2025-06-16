@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.camc.proyecto_redesiii"
         minSdk = 26
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -44,7 +45,6 @@ android {
 }
 
 dependencies {
-
     //Google Calendar
     implementation(libs.play.services.auth)
     implementation(libs.google.api.client.android)

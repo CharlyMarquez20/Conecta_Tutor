@@ -1,9 +1,7 @@
 package com.camc.proyecto_redesiii
 
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -12,7 +10,7 @@ import retrofit2.http.Path
 interface APIService {
     //DEFINICION DE SERVICIOS PARA USUARIOS
     @GET("usuarios")
-    fun getUsuarios(): Call<List<Usuarios>>
+    fun getUsuarios(): Call<List<UsuariosGet>>
 
     @GET("usr/{id}")
     fun getUsuario(@Path("id") id: Int): Call<Usuarios>
@@ -28,6 +26,9 @@ interface APIService {
 
     @PUT("usuarios")
     fun actualizarUsuario(@Body usuario: Usuarios): Call<Usuarios>
+
+    @POST("login") //Iniciar sesion con hashes
+    fun iniciarSesion(@Body datos: UsuarioIniciarSesion): Call<RespuestaLogin>
 
 
     //DEFINICION DE SERVICIOS PARA ASESORIAS
@@ -57,5 +58,8 @@ interface APIService {
     @GET("carreras")
     fun getCarreras(): Call<List<Carreras>>
 
+    //OBTENER API DE SENDGRID
+    @GET("api-key")
+    fun getApiKey(): Call<KeyGrid>
 
 }

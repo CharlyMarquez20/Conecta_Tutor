@@ -1,9 +1,7 @@
 package com.camc.proyecto_redesiii
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -18,13 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import org.json.JSONObject
-import java.security.MessageDigest
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
+import com.google.gson.Gson
 
 
 class Registro : AppCompatActivity(){
@@ -41,20 +33,26 @@ class Registro : AppCompatActivity(){
     var Carreras = mutableListOf<Carreras>()
     var spinnerCarrera: Spinner? = null
 
-    //Input
+    //Input - Registrarme
     var nombreEdit: EditText? = null
-    var apellidosEdit: EditText? = null
+    var apellidoPEdit: EditText? = null
+    var apellidoMEdit: EditText? = null
+    var semestreEdit: EditText? = null
     var idEdit: EditText? = null
-    var idEditIniciar: EditText? = null
-    var contraEditIniciar: EditText? = null
     var contraEdit: EditText? = null
 
+    //Input - Iniciar sesion
+    var idEditIniciar: EditText? = null
+    var contraEditIniciar: EditText? = null
+
     var nombre : String? = null
-    var apellidos : String? = null
+    var apellidoP : String? = null
+    var apellidoM : String? = null
     var idSesion : String? = null
     var ocupacion : String? = null
     var carrera : String? = null
     var idCarrera : Int? = null
+    var semestre : String? = null
     var contraSesion : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,8 +115,8 @@ class Registro : AppCompatActivity(){
                 if (response.isSuccessful) {
                     val carreras = response.body()
                     for(carrera in carreras!!){
-                        datosSpinner.add(carrera.nombre)
-                        Carreras.add(Carreras(carrera.id, carrera.nombre))
+                        datosSpinner.add(carrera.Nombre)
+                        Carreras.add(Carreras(carrera.idCarrera, carrera.Nombre))
                     }
                     Log.d("SPINNER", datosSpinner.toString())
                     // Configurar el adaptador después de llenar los datos
@@ -134,7 +132,7 @@ class Registro : AppCompatActivity(){
                 }
             }
             override fun onFailure(call: retrofit2.Call<List<Carreras>>, t: Throwable) {
-                //Log.e("API", "Fallo: ${t.message}")
+                Log.e("API", "Fallo: ${t.message}")
             }
         })
         /*
@@ -150,12 +148,17 @@ class Registro : AppCompatActivity(){
     }
 
     fun asignarEdits(){
+        //Registrarme
         nombreEdit=findViewById(R.id.nombres)
-        apellidosEdit=findViewById(R.id.apellidos)
+        apellidoPEdit=findViewById(R.id.apellidoP)
+        apellidoMEdit=findViewById(R.id.apellidoM)
         idEdit=findViewById(R.id.id_alumno)
-        idEditIniciar=findViewById(R.id.usuarioIniciarSesion)
+        semestreEdit=findViewById(R.id.semestre)
         spinnerCarrera=findViewById(R.id.carrera)
         contraEdit=findViewById(R.id.contraRegistro)
+
+        //Iniciar Sesion
+        idEditIniciar=findViewById(R.id.usuarioIniciarSesion)
         contraEditIniciar=findViewById(R.id.contraIniciarSesion)
     }
 
@@ -165,8 +168,8 @@ class Registro : AppCompatActivity(){
             idSesion=idEditIniciar!!.text.toString()
             contraSesion=contraEditIniciar!!.text.toString()
             Log.d("ENTRO", "YA")
-            RetrofitClient.instance.getUsuarios().enqueue(object : retrofit2.Callback<List<Usuarios>> {
-                override fun onResponse(call: retrofit2.Call<List<Usuarios>>, response: retrofit2.Response<List<Usuarios>>) {
+            RetrofitClient.instance.getUsuarios().enqueue(object : retrofit2.Callback<List<UsuariosGet>> {
+                override fun onResponse(call: retrofit2.Call<List<UsuariosGet>>, response: retrofit2.Response<List<UsuariosGet>>) {
                     if (response.isSuccessful) {
                         val usuarios = response.body()
                         Log.d("ENTRO", "SI")
@@ -185,20 +188,29 @@ class Registro : AppCompatActivity(){
                                 if(ocupacion=="tutor"){
                                     tutor = true
                                 }else{
-                                    if (usuario.password == contraSesion) {
-                                        /*if(ocupacion=="tutor"){
-                                            tutor = true
-                                        }else{
-
-                                        }*/
-                                        contraseñaCorrecta = true
-                                        Sesion.usuario = idSesion!!.toInt()
-                                        val intent = Intent(this@Registro, Navegacion::class.java)
-                                        startActivity(intent)
-                                        return
-                                    }
+                                    val datos = UsuarioIniciarSesion(idSesion!!, contraSesion!!)
+                                    RetrofitClient.instance.iniciarSesion(datos).enqueue(object : retrofit2.Callback<RespuestaLogin> {
+                                        override fun onResponse(call: retrofit2.Call<RespuestaLogin>, response: retrofit2.Response<RespuestaLogin>) {
+                                            Log.d("ENTRÉ", "FUNCION")
+                                            if (response.isSuccessful){
+                                                val usuarioS = response.body()
+                                                Log.d("ENTRÉ", "YA VALIDÉ")
+                                                Log.d("DATOS", usuarioS!!.usuario.toString())
+                                                contraseñaCorrecta = true
+                                                Sesion.usuario = idSesion!!.toInt()
+                                                Sesion.usuario = usuario.Semestre
+                                                val intent = Intent(this@Registro, Navegacion::class.java)
+                                                startActivity(intent)
+                                                return
+                                            }else {
+                                                Log.e("LOGIN", "Error en login: ${response.errorBody()?.string()}")
+                                            }
+                                        }
+                                        override fun onFailure(call: retrofit2.Call<RespuestaLogin>, t: Throwable) {
+                                            Log.e("API", "Fallo: ${t.message}")
+                                        }
+                                    })
                                 }
-
                             }
                         }
 
@@ -243,7 +255,7 @@ class Registro : AppCompatActivity(){
                     }
                 }
 
-                override fun onFailure(call: retrofit2.Call<List<Usuarios>>, t: Throwable) {
+                override fun onFailure(call: retrofit2.Call<List<UsuariosGet>>, t: Throwable) {
                     Log.e("API", "Fallo: ${t.message}")
                 }
             })
@@ -252,22 +264,25 @@ class Registro : AppCompatActivity(){
 
         if(v === registrarme){
             nombre=nombreEdit!!.text.toString()
-            apellidos=apellidosEdit!!.text.toString()
+            apellidoP=apellidoPEdit!!.text.toString()
+            apellidoM=apellidoMEdit!!.text.toString()
             idSesion=idEdit!!.text.toString()
             carrera=spinnerCarrera!!.selectedItem.toString()
-            ocupacion="alumno"
+            semestre=semestreEdit!!.text.toString()
             contraSesion=contraEdit!!.text.toString()
             for(carreras in Carreras){
-                if(carrera==carreras.nombre){
-                    idCarrera=carreras.id
+                if(carrera==carreras.Nombre){
+                    idCarrera=carreras.idCarrera
                     break
                 }
             }
-            val usuario = Usuarios(id = idSesion!!.toInt(), id_carrera = idCarrera!!, nombre = nombre!!, apellidos = apellidos!!, ocupacion = ocupacion!!, password = contraSesion!!)
+            val usuario = Usuarios(idAlumno = idSesion!!.toInt(), Nombre = nombre!!, ApellidoPaterno = apellidoP!!, ApellidoMaterno = apellidoM!!,
+                idCarrera = idCarrera!!, Password = contraSesion!!, Semestre = semestre!!.toInt(), Ocupacion = "alumno")
             RetrofitClient.instance.crearUsuario(usuario).enqueue(object : retrofit2.Callback<Usuarios> {
                 override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
                     if (response.isSuccessful) {
                         Sesion.usuario=idSesion!!.toInt()
+                        Sesion.semestre=semestre!!.toInt()
                         val intent = Intent(this@Registro, Navegacion::class.java)
                         startActivity(intent)
                     }

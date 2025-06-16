@@ -115,33 +115,92 @@
             android:inputType="text"
             android:singleLine="true"/>
 
-        <TextView
+        <LinearLayout
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apellidos:"/>
-        <EditText
-            android:id="@+id/apellidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Apellidos"
-            android:textSize="17dp"
-            android:inputType="text"
-            android:singleLine="true"/>
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apellido Paterno:"/>
+                <EditText
+                    android:id="@+id/apellidoP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellido Paterno"
+                    android:textSize="15dp"
+                    android:inputType="text"
+                    android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apellido Materno:"/>
+                <EditText
+                    android:id="@+id/apellidoM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellido Materno"
+                    android:textSize="15dp"
+                    android:inputType="text"
+                    android:singleLine="true"/>
+            </LinearLayout>
+        </LinearLayout>
 
-        <TextView
+
+        <LinearLayout
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID:"/>
-        <EditText
-            android:id="@+id/id_alumno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ID"
-            android:textSize="17dp"
-            android:inputType="number"
-            android:singleLine="true"/>
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID:"/>
+                <EditText
+                    android:id="@+id/id_alumno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ID"
+                    android:textSize="17dp"
+                    android:inputType="number"
+                    android:singleLine="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Semestre:"/>
+                <EditText
+                    android:id="@+id/semestre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Semestre"
+                    android:textSize="17dp"
+                    android:inputType="number"
+                    android:singleLine="true"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_marginTop="30dp"
