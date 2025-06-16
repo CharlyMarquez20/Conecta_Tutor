@@ -61,7 +61,7 @@ class Usuario : AppCompatActivity()  {
             override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
                 if (response.isSuccessful) {
                     val usuario = response.body()
-                    nombreCompleto=usuario!!.Nombre+" "+usuario!!.ApellidoPaterno+" "+usuario!!.ApellidoMaterno
+                    nombreCompleto=usuario!!.Nombre+" "+ usuario.ApellidoPaterno+" "+ usuario.ApellidoMaterno
                     editNombre!!.hint=nombreCompleto!!
                     editNombre!!.isEnabled=false
 
