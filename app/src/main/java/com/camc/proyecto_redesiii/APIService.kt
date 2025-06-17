@@ -13,9 +13,9 @@ interface APIService {
     fun getUsuarios(): Call<List<UsuariosGet>>
 
     @GET("usr/{id}")
-    fun getUsuario(@Path("id") id: Int): Call<Usuarios>
+    fun getUsuario(@Path("id") id: Int): Call<UsuariosGet>
 
-    @POST("usuarios")
+    @POST("alumnos")
     fun crearUsuario(@Body usuario: Usuarios): Call<Usuarios>
 
     @POST("baja") //Mandar id de asesoria y id de alumno
@@ -25,7 +25,7 @@ interface APIService {
     fun altaAsesoria(@Body datos: AltaBaja): Call<AltaBaja>
 
     @PUT("usuarios")
-    fun actualizarUsuario(@Body usuario: Usuarios): Call<Usuarios>
+    fun actualizarUsuario(@Body usuario: UsuarioUpdate): Call<UsuarioUpdate>
 
     @POST("login") //Iniciar sesion con hashes
     fun iniciarSesion(@Body datos: UsuarioIniciarSesion): Call<RespuestaLogin>
@@ -60,6 +60,6 @@ interface APIService {
 
     //OBTENER API DE SENDGRID
     @GET("api-key")
-    fun getApiKey(): Call<KeyGrid>
+    suspend fun getApiKey(): KeyGrid
 
 }

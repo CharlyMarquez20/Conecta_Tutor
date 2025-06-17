@@ -27,8 +27,7 @@ class Usuario : AppCompatActivity()  {
 
     var nombreCompleto: String? = null
     var nombre: String? = null
-    var apellidoP: String? = null
-    var apellidoM: String? = null
+    var apellidos: String? = null
     var idCarrera: Int? = null
     var ocupacion: String? = null
 
@@ -57,22 +56,22 @@ class Usuario : AppCompatActivity()  {
         btnRegresar=findViewById(R.id.btnRegresar)
         btnRegresar!!.setOnClickListener(evento)
 
-        RetrofitClient.instance.getUsuario(Sesion.usuario).enqueue(object : retrofit2.Callback<Usuarios> {
-            override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
+        RetrofitClient.instance.getUsuario(Sesion.usuario).enqueue(object : retrofit2.Callback<UsuariosGet> {
+            override fun onResponse(call: retrofit2.Call<UsuariosGet>, response: retrofit2.Response<UsuariosGet>) {
                 if (response.isSuccessful) {
                     val usuario = response.body()
-                    nombreCompleto=usuario!!.Nombre+" "+ usuario.ApellidoPaterno+" "+ usuario.ApellidoMaterno
+                    Log.d("TAG", "onResponse: $usuario")
+                    nombreCompleto=usuario!!.Nombre+" "+ usuario.apellidos
                     editNombre!!.hint=nombreCompleto!!
                     editNombre!!.isEnabled=false
 
                     nombre=usuario.Nombre
-                    apellidoP=usuario.ApellidoPaterno
-                    apellidoM=usuario.ApellidoMaterno
-                    idCarrera=usuario.idCarrera
-                    ocupacion=usuario.Ocupacion
+                    apellidos=usuario.apellidos
+                    //idCarrera=usuario.idCarrera
+                    ocupacion=usuario.ocupacion
                 }
             }
-            override fun onFailure(call: retrofit2.Call<Usuarios>, t: Throwable) {
+            override fun onFailure(call: retrofit2.Call<UsuariosGet>, t: Throwable) {
                 Log.e("API", "Fallo: ${t.message}")
             }
         })
@@ -114,10 +113,9 @@ class Usuario : AppCompatActivity()  {
             Sesion.modificarContra=false
             val contra = editContra!!.text.toString()
 
-            val usuario = Usuarios(idAlumno = Sesion.usuario, idCarrera = idCarrera!!,  Nombre = nombre!!, ApellidoPaterno = apellidoP!!,
-                ApellidoMaterno = apellidoM!!, Password = contra, Semestre = Sesion.semestre, Ocupacion = ocupacion!!)
-            RetrofitClient.instance.actualizarUsuario(usuario).enqueue(object : retrofit2.Callback<Usuarios> {
-                override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
+            val usuario = UsuarioUpdate(id = Sesion.usuario, password = contra, ocupacion = ocupacion!!)
+            RetrofitClient.instance.actualizarUsuario(usuario).enqueue(object : retrofit2.Callback<UsuarioUpdate> {
+                override fun onResponse(call: retrofit2.Call<UsuarioUpdate>, response: retrofit2.Response<UsuarioUpdate>) {
                     if (response.isSuccessful) {
                         email.cambiarContra(Sesion.usuario.toString())
                         val builder = AlertDialog.Builder(this@Usuario)
@@ -132,7 +130,7 @@ class Usuario : AppCompatActivity()  {
                         return
                     }
                 }
-                override fun onFailure(call: retrofit2.Call<Usuarios>, t: Throwable) {
+                override fun onFailure(call: retrofit2.Call<UsuarioUpdate>, t: Throwable) {
                     Log.e("API", "Fallo: ${t.message}")
                 }
             })

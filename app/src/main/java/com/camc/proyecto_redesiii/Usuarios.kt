@@ -1,14 +1,14 @@
 package com.camc.proyecto_redesiii
 
 data class Usuarios(
-    val idAlumno: Int,
-    val Nombre: String,
-    val ApellidoPaterno: String,
-    val ApellidoMaterno: String,
+    val id: Int,
+    val nombre: String,
+    val apellidoPaterno: String,
+    val apellidoMaterno: String,
     val idCarrera: Int,
-    val Password: String,
-    val Semestre: Int,
-    val Ocupacion: String
+    val password: String,
+    val semestre: Int,
+    val ocupacion: String
 )
 
 data class UsuariosGet(
@@ -18,6 +18,12 @@ data class UsuariosGet(
     val apellidos: String,
     val password: String,
     val Semestre: Int
+)
+
+data class UsuarioUpdate(
+    val id: Int,
+    val ocupacion: String,
+    val password: String
 )
 
 data class RespuestaLogin(

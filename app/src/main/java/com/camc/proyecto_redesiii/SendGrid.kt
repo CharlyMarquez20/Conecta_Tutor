@@ -14,21 +14,15 @@ import org.json.JSONObject
 class SendGrid {
     var apiKey: String = ""
 
-    fun api(): String{
-        var api: String=""
-        RetrofitClient.instance.getApiKey().enqueue(object : retrofit2.Callback<KeyGrid> {
-            override fun onResponse(call: retrofit2.Call<KeyGrid>,response: retrofit2.Response<KeyGrid>) {
-                if (response.isSuccessful) {
-                    api= response.body()?.apiKey.toString()
-                }
-            }
-            override fun onFailure(call: retrofit2.Call<KeyGrid>, t: Throwable) {
-                //Log.e("API", "Fallo: ${t.message}")
-            }
-        })
-        return api
+    suspend fun api(): String {
+        return try {
+            val response = RetrofitClient.instance.getApiKey()
+            response.apiKey
+        } catch (e: Exception) {
+            Log.e("API", "Error al obtener API key: ${e.message}")
+            ""
+        }
     }
-
 
     fun inscrito(id: String, materia: String, profesor: String, fecha: String, hora: String,
                   dias: String, lugar: String) {
@@ -166,6 +160,7 @@ class SendGrid {
     fun cambiarContra(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             apiKey = api()
+            Log.d("PROBANDO", "cambiarContra: $apiKey")
             val fromEmail = "al333812@edu.uaa.mx"
             val toEmail = "al$id@edu.uaa.mx"
             val subject = "Contraseña actualizada"

@@ -175,8 +175,8 @@ class Registro : AppCompatActivity(){
                         Log.d("ENTRO", "SI")
 
                         var usuarioEncontrado = false
-                        var contraseñaCorrecta = false
                         var ocupacion: String = ""
+                        var contrasenaCorrecta = false
                         var tutor = false
 
                         // Verificar usuario y contraseña
@@ -191,19 +191,30 @@ class Registro : AppCompatActivity(){
                                     val datos = UsuarioIniciarSesion(idSesion!!, contraSesion!!)
                                     RetrofitClient.instance.iniciarSesion(datos).enqueue(object : retrofit2.Callback<RespuestaLogin> {
                                         override fun onResponse(call: retrofit2.Call<RespuestaLogin>, response: retrofit2.Response<RespuestaLogin>) {
-                                            Log.d("ENTRÉ", "FUNCION")
                                             if (response.isSuccessful){
                                                 val usuarioS = response.body()
-                                                Log.d("ENTRÉ", "YA VALIDÉ")
                                                 Log.d("DATOS", usuarioS!!.usuario.toString())
-                                                contraseñaCorrecta = true
+                                                contrasenaCorrecta = true
                                                 Sesion.usuario = idSesion!!.toInt()
-                                                Sesion.usuario = usuario.Semestre
+                                                Sesion.semestre = usuario.Semestre
+                                                Log.d("CONTRA", contrasenaCorrecta.toString())
                                                 val intent = Intent(this@Registro, Navegacion::class.java)
                                                 startActivity(intent)
                                                 return
                                             }else {
                                                 Log.e("LOGIN", "Error en login: ${response.errorBody()?.string()}")
+                                                // Si se encuentra el usuario, pero la contraseña es incorrecta
+                                                if (usuarioEncontrado && !contrasenaCorrecta && ocupacion=="alumno") {
+                                                    val builder = AlertDialog.Builder(this@Registro)
+                                                    builder.setTitle("Ups")
+                                                    builder.setMessage("Parece que la contraseña que ingresaste es incorrecta, inténtalo de nuevo")
+                                                    builder.setPositiveButton("Aceptar") { dialog, _ ->
+                                                        val intent = Intent(this@Registro, Registro::class.java)
+                                                        startActivity(intent)
+                                                    }
+                                                    builder.setCancelable(false)
+                                                    builder.show()
+                                                }
                                             }
                                         }
                                         override fun onFailure(call: retrofit2.Call<RespuestaLogin>, t: Throwable) {
@@ -227,8 +238,8 @@ class Registro : AppCompatActivity(){
                             builder.show()
                         }
 
-                        // Si se encuentra el usuario, pero la contraseña es incorrecta
-                        if (usuarioEncontrado && !contraseñaCorrecta && ocupacion=="alumno") {
+                        /*// Si se encuentra el usuario, pero la contraseña es incorrecta
+                        if (usuarioEncontrado && !contrasenaCorrecta && ocupacion=="alumno") {
                             val builder = AlertDialog.Builder(this@Registro)
                             builder.setTitle("Ups")
                             builder.setMessage("Parece que la contraseña que ingresaste es incorrecta, inténtalo de nuevo")
@@ -238,7 +249,7 @@ class Registro : AppCompatActivity(){
                             }
                             builder.setCancelable(false)
                             builder.show()
-                        }
+                        }*/
 
                         // Si no se encontró ningún usuario con el ID proporcionado
                         if (!usuarioEncontrado) {
@@ -263,6 +274,7 @@ class Registro : AppCompatActivity(){
         }
 
         if(v === registrarme){
+            Log.d("REGISTROS", "PRESIONÉ")
             nombre=nombreEdit!!.text.toString()
             apellidoP=apellidoPEdit!!.text.toString()
             apellidoM=apellidoMEdit!!.text.toString()
@@ -276,10 +288,12 @@ class Registro : AppCompatActivity(){
                     break
                 }
             }
-            val usuario = Usuarios(idAlumno = idSesion!!.toInt(), Nombre = nombre!!, ApellidoPaterno = apellidoP!!, ApellidoMaterno = apellidoM!!,
-                idCarrera = idCarrera!!, Password = contraSesion!!, Semestre = semestre!!.toInt(), Ocupacion = "alumno")
+            val usuario = Usuarios(id = idSesion!!.toInt(), nombre = nombre!!, apellidoPaterno = apellidoP!!, apellidoMaterno = apellidoM!!,
+                idCarrera = idCarrera!!, password = contraSesion!!, semestre = semestre!!.toInt(), ocupacion = "alumno")
+            Log.d("REGISTROS", "$usuario")
             RetrofitClient.instance.crearUsuario(usuario).enqueue(object : retrofit2.Callback<Usuarios> {
                 override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
+                    Log.d("REGISTROS", "YA")
                     if (response.isSuccessful) {
                         Sesion.usuario=idSesion!!.toInt()
                         Sesion.semestre=semestre!!.toInt()
