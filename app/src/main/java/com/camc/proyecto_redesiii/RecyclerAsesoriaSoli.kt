@@ -8,9 +8,9 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAsesoria(private val asesorias: List<Asesorias>, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecyclerAsesoria.AsesoriaViewHolder>() {
+class RecyclerAsesoriaSoli(private val asesorias: List<AsesoriaSolicitada>, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecyclerAsesoriaSoli.AsesoriaViewHolder>() {
     interface OnItemClickListener {
-        fun onItemClick(asesoria: Asesorias)
+        fun onItemClick(asesoria: AsesoriaSolicitada)
     }
 
     inner class AsesoriaViewHolder(itemView: View) : RecyclerView. ViewHolder(itemView) {
@@ -18,11 +18,11 @@ class RecyclerAsesoria(private val asesorias: List<Asesorias>, private val liste
         var hora : TextView = itemView.findViewById(R.id.hora_asesoria)
         var lugar : TextView = itemView.findViewById(R.id.lugar_asesoria)
         var profesor: TextView = itemView.findViewById(R.id.profesor_asesoria)
-        fun bind(asesoria: Asesorias) {
+        fun bind(asesoria: AsesoriaSolicitada) {
             titulo.text=asesoria.materia
-            hora.text="Hora: "+asesoria.horario_inicio
-            lugar.text="Lugar: "+asesoria.lugar
-            profesor.text=asesoria.docente
+            hora.text="Hora: Por definir"
+            lugar.text="Lugar: Por definir"
+            profesor.text="Profesor: Por definir"
             itemView.setOnClickListener {
                 listener.onItemClick(asesoria)
             }

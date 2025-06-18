@@ -70,15 +70,15 @@ class Navegacion : AppCompatActivity() {
                             leyenda!!.visibility=View.GONE
                             val adaptador = RecyclerAsesoria(asesorias!!, object : RecyclerAsesoria.OnItemClickListener {
                                 override fun onItemClick(asesoria: Asesorias) {
-                                    Log.d("RecyclerAsesoria", "Clic en ${asesoria.materiaNombre}")
+                                    Log.d("RecyclerAsesoria", "Clic en ${asesoria.materia}")
                                     val intent: Intent = Intent(this@Navegacion, DetallesAsesoria::class.java)
                                     intent.putExtra("id", asesoria.id_asesoria)
-                                    intent.putExtra("materia", asesoria.materiaNombre)
-                                    intent.putExtra("lugar", asesoria.lugarNombre)
+                                    intent.putExtra("materia", asesoria.materia)
+                                    intent.putExtra("lugar", asesoria.lugar)
                                     intent.putExtra("dias", asesoria.dias)
                                     intent.putExtra("dia", asesoria.fecha_inicio)
                                     intent.putExtra("hora", asesoria.horario_inicio)
-                                    intent.putExtra("profesor", asesoria.maestroNombre)
+                                    intent.putExtra("profesor", asesoria.docente)
                                     intent.putExtra("boton", "asesoria")
                                     startActivity(intent)
                                 }
@@ -106,12 +106,12 @@ class Navegacion : AppCompatActivity() {
                             override fun onItemClick(asesoria: Asesorias) {
                                 val intent: Intent = Intent(this@Navegacion, DetallesAsesoria::class.java)
                                 intent.putExtra("id", asesoria.id_asesoria)
-                                intent.putExtra("materia", asesoria.materiaNombre)
-                                intent.putExtra("lugar", asesoria.lugarNombre)
+                                intent.putExtra("materia", asesoria.materia)
+                                intent.putExtra("lugar", asesoria.lugar)
                                 intent.putExtra("dias", asesoria.dias)
                                 intent.putExtra("dia", asesoria.fecha_inicio)
                                 intent.putExtra("hora", asesoria.horario_inicio)
-                                intent.putExtra("profesor", asesoria.maestroNombre)
+                                intent.putExtra("profesor", asesoria.docente)
                                 intent.putExtra("boton", "curso")
                                 startActivity(intent)
                             }

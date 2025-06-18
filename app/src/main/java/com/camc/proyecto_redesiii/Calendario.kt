@@ -121,9 +121,9 @@ class Calendario : AppCompatActivity() {
                         if(asesorias.size!=0){
                             // Crear evento de prueba
                             for(asesoria in asesorias){
-                                crearEventoPrueba(asesoria.materiaNombre, asesoria.maestroNombre,
+                                crearEventoPrueba(asesoria.materia, asesoria.docente,
                                     asesoria.fecha_inicio, asesoria.horario_inicio, asesoria.horario_fin,
-                                    asesoria.dias, asesoria.lugarNombre)
+                                    asesoria.dias, asesoria.lugar)
                             }
                             asignamos=true
                             if(asignamos){
@@ -191,13 +191,14 @@ class Calendario : AppCompatActivity() {
 
     private fun crearEventoPrueba(materia: String, profesor: String, fecha: String, inicio: String, fin: String,
                                   dias: String, lugar: String) {
+        Log.d("CALENDARIO", "crearEventoPrueba: $materia, $profesor, $fecha, $inicio, $$fin, $dias, $lugar")
         createEvent(
             titulo = "Asesoría de $materia",
             descripcion = "Asesoria impartida por el profesor(a) $profesor, los días $dias en $lugar",
             //fechaInicio = "2024-12-15T10:00:00-06:00",
             //fechaFin = "2024-12-15T11:00:00-06:00",
-            fechaInicio = fecha+"T"+inicio+":00-06:00",
-            fechaFin = fecha+"T"+fin+":00-06:00",
+            fechaInicio = fecha+"T"+inicio+"-06:00",
+            fechaFin = fecha+"T"+fin+"-06:00",
             onSuccess = { link ->
                 Log.d(TAG, "Evento creado exitosamente: $link")
                 //Toast.makeText(this, "Evento creado: $link", Toast.LENGTH_LONG).show()

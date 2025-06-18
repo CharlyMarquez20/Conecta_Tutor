@@ -126,7 +126,7 @@ class Solicitar : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val materias = response.body()
                     for(materia in materias!!){
-                        datosMaterias.add(materia.nombre)
+                        datosMaterias.add(materia.Nombre)
                         Log.d("datos", "$datosMaterias")
                         llenamosSpinner()
                     }
@@ -137,8 +137,8 @@ class Solicitar : AppCompatActivity() {
             }
         })
 
-        RetrofitClient.instance.getAsesoriasSolicitadas(Sesion.usuario).enqueue(object : retrofit2.Callback<List<Asesorias>> {
-            override fun onResponse(call: retrofit2.Call<List<Asesorias>>, response: retrofit2.Response<List<Asesorias>>) {
+        RetrofitClient.instance.getAsesoriasSolicitadas(Sesion.usuario).enqueue(object : retrofit2.Callback<List<AsesoriaSolicitada>> {
+            override fun onResponse(call: retrofit2.Call<List<AsesoriaSolicitada>>, response: retrofit2.Response<List<AsesoriaSolicitada>>) {
                 if (response.isSuccessful) {
                     val asesorias = response.body()
                     if(asesorias!!.size!=0){
@@ -146,16 +146,16 @@ class Solicitar : AppCompatActivity() {
                         recyclerAsesoria!!.visibility=View.VISIBLE
                         leyenda!!.isEnabled=false
                         leyenda!!.visibility=View.GONE
-                        val adaptador = RecyclerAsesoria(asesorias!!, object : RecyclerAsesoria.OnItemClickListener {
-                            override fun onItemClick(asesoria: Asesorias) {
-                                Log.d("RecyclerAsesoria", "Clic en ${asesoria.materiaNombre}")
+                        val adaptador = RecyclerAsesoriaSoli(asesorias!!, object : RecyclerAsesoriaSoli.OnItemClickListener {
+                            override fun onItemClick(asesoria: AsesoriaSolicitada) {
+                                Log.d("RecyclerAsesoria", "Clic en ${asesoria.materia}")
                                 val intent: Intent = Intent(this@Solicitar, DetallesAsesoria::class.java)
-                                intent.putExtra("id", asesoria.id_asesoria)
-                                intent.putExtra("materia", asesoria.materiaNombre)
-                                intent.putExtra("lugar", asesoria.lugarNombre)
-                                intent.putExtra("dias", asesoria.dias)
-                                intent.putExtra("hora", asesoria.horario_fin)
-                                intent.putExtra("profesor", asesoria.maestroNombre)
+                                intent.putExtra("id", asesoria.idAsesoria)
+                                intent.putExtra("materia", asesoria.materia)
+                                intent.putExtra("lugar", "Por definir")
+                                intent.putExtra("dias", "Por definir")
+                                intent.putExtra("hora", "Por definir")
+                                intent.putExtra("profesor", "Por definir")
                                 intent.putExtra("boton", "asesoria")
                                 startActivity(intent)
                             }
@@ -170,7 +170,7 @@ class Solicitar : AppCompatActivity() {
                     }
                 }
             }
-            override fun onFailure(call: retrofit2.Call<List<Asesorias>>, t: Throwable) {
+            override fun onFailure(call: retrofit2.Call<List<AsesoriaSolicitada>>, t: Throwable) {
                 //Log.e("API", "Fallo: ${t.message}")
             }
         })
@@ -193,9 +193,11 @@ class Solicitar : AppCompatActivity() {
         }
         if(v === solicitar){
             val diasMandar = diasString.joinToString(", ")
+            val vectorDias = diasMandar.split(", ")
+            Log.d("TAG", "vector: $vectorDias")
             materia=spinnerMateria!!.selectedItem.toString()
             hora=spinnerHora!!.selectedItem.toString()
-            val asesoria = SolicitarAsesoria(dias = diasMandar, horario_inicio = hora!!, materia = materia!!, id_solicitante = Sesion.usuario)
+            val asesoria = SolicitarAsesoria(dias = vectorDias, horario_inicio = hora!!, materia = materia!!, idAlumno = Sesion.usuario)
             RetrofitClient.instance.solicitarAsesoria(asesoria).enqueue(object : retrofit2.Callback<SolicitarAsesoria> {
                 override fun onResponse(call: retrofit2.Call<SolicitarAsesoria>, response: retrofit2.Response<SolicitarAsesoria>) {
                     if (response.isSuccessful) {

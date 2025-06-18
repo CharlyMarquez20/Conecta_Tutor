@@ -16,7 +16,7 @@ class RecyclerCursos(private val cursos: List<Asesorias>, private val listener: 
         var dias : TextView = itemView.findViewById(R.id.dias_curso)
         var hora : TextView = itemView.findViewById(R.id.hora_curso)
         fun bind(asesoria: Asesorias) {
-            titulo.text=asesoria.materiaNombre
+            titulo.text=asesoria.materia
             dias.text="Dias: "+asesoria.dias
             hora.text="Hora: "+asesoria.horario_inicio
             itemView.setOnClickListener {

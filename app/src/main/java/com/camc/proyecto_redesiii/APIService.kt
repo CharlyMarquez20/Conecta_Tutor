@@ -35,19 +35,19 @@ interface APIService {
     @GET("asesorias")
     fun getAsesorias(): Call<List<Asesorias>>
 
-    @GET("asesorias/alumno/{id}")
+    @GET("asesoriasMongo/alumno/{id}")
     fun getAsesoriasUsuarios(@Path("id") id: Int): Call<List<Asesorias>>
 
-    @GET("asesorias/{id}")
+    @GET("asesoriasMongo/{id}")
     fun getCursos(@Path("id") id: Int): Call<List<Asesorias>>
 
-    @POST("asesoria")
+    @POST("asesoriaMongo")
     fun solicitarAsesoria(@Body asesoria: SolicitarAsesoria): Call<SolicitarAsesoria>
 
-    @GET("asesoriasSolicitadas/{id}")
-    fun getAsesoriasSolicitadas(@Path("id") id: Int): Call<List<Asesorias>>
+    @GET("asesoriasSolicitadasMongo/{id}")
+    fun getAsesoriasSolicitadas(@Path("id") id: Int): Call<List<AsesoriaSolicitada>>
 
-    @PUT("cancelarasesoria")
+    @PUT("cancelarasesoriaMongo")
     fun cancelarAsesoria(@Body id: AsesoriaCancelada): Call<AsesoriaCancelada>
 
     //DEFINICION DE USUARIOS PARA MATERIAS

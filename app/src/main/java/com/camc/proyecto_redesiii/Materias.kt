@@ -1,6 +1,7 @@
 package com.camc.proyecto_redesiii
 
 data class Materias(
-    val id: Int,
-    val nombre: String
+    val idMateria: Int,
+    val Nombre: String,
+    val idCarrera: Int
 )
