@@ -290,10 +290,8 @@ class Registro : AppCompatActivity(){
             }
             val usuario = Usuarios(id = idSesion!!.toInt(), nombre = nombre!!, apellidoPaterno = apellidoP!!, apellidoMaterno = apellidoM!!,
                 idCarrera = idCarrera!!, password = contraSesion!!, semestre = semestre!!.toInt(), ocupacion = "alumno")
-            Log.d("REGISTROS", "$usuario")
             RetrofitClient.instance.crearUsuario(usuario).enqueue(object : retrofit2.Callback<Usuarios> {
                 override fun onResponse(call: retrofit2.Call<Usuarios>, response: retrofit2.Response<Usuarios>) {
-                    Log.d("REGISTROS", "YA")
                     if (response.isSuccessful) {
                         Sesion.usuario=idSesion!!.toInt()
                         Sesion.semestre=semestre!!.toInt()

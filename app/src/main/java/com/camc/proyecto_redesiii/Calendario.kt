@@ -191,7 +191,6 @@ class Calendario : AppCompatActivity() {
 
     private fun crearEventoPrueba(materia: String, profesor: String, fecha: String, inicio: String, fin: String,
                                   dias: String, lugar: String) {
-        Log.d("CALENDARIO", "crearEventoPrueba: $materia, $profesor, $fecha, $inicio, $$fin, $dias, $lugar")
         createEvent(
             titulo = "Asesoría de $materia",
             descripcion = "Asesoria impartida por el profesor(a) $profesor, los días $dias en $lugar",
