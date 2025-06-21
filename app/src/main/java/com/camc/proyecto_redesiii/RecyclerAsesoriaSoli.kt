@@ -8,19 +8,19 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAsesoriaSoli(private val asesorias: List<AsesoriaSolicitada>, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecyclerAsesoriaSoli.AsesoriaViewHolder>() {
+class RecyclerAsesoriaSoli(private val asesorias: List<AsesoriaSolicitada>, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecyclerAsesoriaSoli.AsesoriaSoliViewHolder>() {
     interface OnItemClickListener {
         fun onItemClick(asesoria: AsesoriaSolicitada)
     }
 
-    inner class AsesoriaViewHolder(itemView: View) : RecyclerView. ViewHolder(itemView) {
+    inner class AsesoriaSoliViewHolder(itemView: View) : RecyclerView. ViewHolder(itemView) {
         var titulo : TextView = itemView.findViewById(R.id.titulo_asesoria)
         var hora : TextView = itemView.findViewById(R.id.hora_asesoria)
         var lugar : TextView = itemView.findViewById(R.id.lugar_asesoria)
         var profesor: TextView = itemView.findViewById(R.id.profesor_asesoria)
         fun bind(asesoria: AsesoriaSolicitada) {
             titulo.text=asesoria.materia
-            hora.text="Hora: Por definir"
+            hora.text=asesoria.horarioInicio
             lugar.text="Lugar: Por definir"
             profesor.text="Profesor: Por definir"
             itemView.setOnClickListener {
@@ -29,14 +29,14 @@ class RecyclerAsesoriaSoli(private val asesorias: List<AsesoriaSolicitada>, priv
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsesoriaViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsesoriaSoliViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.item_asesoria,
             parent, false)
-        return AsesoriaViewHolder(view)
+        return AsesoriaSoliViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AsesoriaViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AsesoriaSoliViewHolder, position: Int) {
         val asesoria = asesorias[position]
         holder.bind(asesoria)
     }

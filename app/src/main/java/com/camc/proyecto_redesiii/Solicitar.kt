@@ -139,8 +139,10 @@ class Solicitar : AppCompatActivity() {
 
         RetrofitClient.instance.getAsesoriasSolicitadas(Sesion.usuario).enqueue(object : retrofit2.Callback<List<AsesoriaSolicitada>> {
             override fun onResponse(call: retrofit2.Call<List<AsesoriaSolicitada>>, response: retrofit2.Response<List<AsesoriaSolicitada>>) {
+                Log.d("TAG", "YA ENTRÉ AQUÍ")
                 if (response.isSuccessful) {
                     val asesorias = response.body()
+                    Log.d("TAG", "onResponse: $asesorias")
                     if(asesorias!!.size!=0){
                         contenedorRecycler!!.visibility=View.VISIBLE
                         recyclerAsesoria!!.visibility=View.VISIBLE
@@ -152,10 +154,10 @@ class Solicitar : AppCompatActivity() {
                                 val intent: Intent = Intent(this@Solicitar, DetallesAsesoria::class.java)
                                 intent.putExtra("id", asesoria.idAsesoria)
                                 intent.putExtra("materia", asesoria.materia)
-                                intent.putExtra("lugar", "Por definir")
-                                intent.putExtra("dias", "Por definir")
-                                intent.putExtra("hora", "Por definir")
-                                intent.putExtra("profesor", "Por definir")
+                                intent.putExtra("lugar", "Lugar: Por definir")
+                                intent.putExtra("dias", "Dias: Por definir")
+                                intent.putExtra("hora", asesoria.horarioInicio)
+                                intent.putExtra("profesor", "Profesor: Por definir")
                                 intent.putExtra("boton", "asesoria")
                                 startActivity(intent)
                             }
